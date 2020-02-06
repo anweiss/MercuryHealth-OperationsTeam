@@ -1,5 +1,5 @@
 name: Environment Creation Workflow
-on: 
+on:
   issues:
     types: [labeled]
 
@@ -30,11 +30,11 @@ jobs:
         with:
           inlineScript: |
             az policy assignment create -n "${{ steps.parser.outputs.policyName }}" -g ${{ steps.parser.outputs.appName }}-rg -d $(az policy set-definition list --query "[?contains(displayName,'${{ steps.parser.outputs.policyName }}')].name" -o tsv) -l ${{ secrets.DefaultAzureLocation }} --assign-identity
-            
+
       - uses: peter-evans/create-or-update-comment@v1.0.0
         if: steps.parser.outputs.approved
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUBTOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
             ### 🚀All Set! 🚀
